@@ -1,0 +1,192 @@
+﻿@model Blogs.UI.Main.ViewModel.IndexViewModel
+@{
+    Layout = "~/Views/Blog/themes/muchun/Shared/_Layout.cshtml";
+}
+
+<link href="http://static.kecq.com/js/jquery.slideBox/css/jquery.slideBox.css" rel="stylesheet" />
+<div id="art_main" class="fl">
+    @{
+        string bannerShow = "";
+        if (Model.MainArticlePics.Count() == 0)
+        {
+            bannerShow = "none";
+        }
+    }
+
+    <div id="ibanner" class="slideBox" style="margin-bottom:10px; display:@bannerShow">
+        <ul class="items">
+            @foreach (var item in Model.MainArticlePics)
+            {
+                <li><a title="@item.articleTitle" href="@item.articleUrl" target="_blank"><img src="@item.articlePic" alt="" /></a></li>
+            }
+        </ul>
+    </div>
+
+
+    <!--ibanner end-->
+    @foreach (var item in Model.IndexArticles)
+    {
+        <div class="art_img_box clearfix">
+
+            <div class="fr box_content">
+                <h2><a href="@item.articleUrl" title="" target="_blank">@Html.Raw(item.articleTitle2)</a></h2>
+
+                <div class="jiange"></div>
+                @if (!String.IsNullOrEmpty(item.articlePic))
+                {
+                    if (System.Configuration.ConfigurationManager.AppSettings["isLazyloadPic"] == "true")
+                    {
+                        <a href="@item.articleUrl"><img class="articlePic" src="http://static.kecq.com/images/common/big-loading.gif" data-original="@item.articlePic" style="max-width:650px" /></a>
+                    }
+                    else
+                    {
+                        <a href="@item.articleUrl"><img src="@item.articlePic" style="max-width:650px" /></a>
+                    }
+                }
+                <p class="intro">
+                    @if (!String.IsNullOrEmpty(item.articleSubContentHtml))
+                    {
+                        @Html.Raw(item.articleSubContentHtml)
+                    }
+                    else
+                    {
+                        @Html.Raw(item.articleSubContentText)
+                    }
+                </p>
+                <ul class="clearfix"></ul>
+                <div class="info">
+                    <table width="650" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="570">
+                                &nbsp;&nbsp;
+                                <span> 时间 : @item.articleDatetime.ToString("yyyy-MM-dd")</span>|
+                                <span>栏目 : <a href="@item.categoryUrl" rel="category">@item.categoryDisplay</a></span>|
+                                <span>浏览 :  @item.articleClickTimes 次</span>|
+                                <span>评论 :  @item.articleCommentTimes 次</span>|
+                                <span>
+                                    标签：
+                                    @foreach (var v in item.TagCollection)
+                                    {
+                                        <a href="@v.Url" rel="tag">@v.tagDisplay</a>@Html.Raw("&nbsp;")
+                                    }
+                                </span>
+                            </td>
+                            <td width="80"><span><a href="@item.articleUrl" title="sdsdsaads" target="_blank">[阅读全文]</a></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+
+    @Html.Raw(Model.PagerHtml)
+
+</div>
+<!-- art_main end-->
+
+<div id="sider" class="fr">
+    <div class="widget feed-mail">
+        <div class="box">
+            <ul id="contact-li">
+                <li class="qq"><a rel="nofollow" target="_blank" href="@Model.Blog.QQLink" title="有急事请Q我">QQ联系</a></li>
+                <li class="email"><a rel="nofollow" target="_blank" href="mailto: @Model.Blog.Email" title="发邮件给我">邮件</a></li>
+                <li class="qqmblog"><a rel="nofollow" target="_blank" href="@Model.Blog.QQWeiboLink" title="收听我的腾讯微博">腾讯微博</a></li>
+                <li class="sinamblog"><a rel="nofollow" target="_blank" href="@Model.Blog.WeiboLink" title="收听我的新浪微博">新浪微博</a></li>
+            </ul>
+        </div>
+
+        <div class="gg">
+            <p>
+                -----=====<strong> 博主信息 </strong>=====-----<br />
+                @Model.Blog.AboutMe
+            </p>
+            <div class="clear"></div>
+        </div>		<div class="clear"></div>
+    </div>
+
+
+    <div class="widget widget_recent_entries">
+        <h3>近期文章</h3>		
+        <ul>
+            @foreach (var item in Model.NewArticles)
+            {
+                <li><a href="@item.articleUrl">@item.articleTitle</a></li>
+            }
+        </ul>
+    </div>
+
+    <div class="widget widget_archive">
+        <h3>文章归档</h3>		
+    <ul>
+            @foreach (var item in Model.Months)
+            {
+                <li><a href="@item.Url">@item.Title</a></li>
+            }
+        </ul>
+    </div><div class="widget widget_categories">
+        <h3>分类目录</h3>		
+    <ul>
+            @foreach (var item in Model.categorys)
+            {
+                <li><a href="@item.Url">@item.categoryDisplay (@item.ArticleCount)</a></li>
+            }
+
+        </ul>
+    </div>
+
+    <div class="widget widget_tag_cloud">
+        <h3>标签</h3><div class="tagcloud">
+            @foreach (var item in Model.Tags)
+            {
+                <a href="@item.Url" class="tag-link-@item.ArticleCount" title="@item.ArticleCount 个话题" style="@item.style">@item.tagDisplay</a>
+            }
+
+        </div>
+    </div>
+    <div class="widget widget_recent_entries">
+        <h3>随机推荐</h3>		
+        <ul>
+            @foreach (var item in Model.RandomArticles)
+            {
+                <li><a href="@item.articleUrl">@Html.Raw(item.articleTitle2)</a></li>
+            }
+        </ul>
+    </div>
+
+    @*<div class="widget widget_recent_entries">
+        <h3>访问量</h3>		
+        <ul>
+            <li>@Model.TotalPV</li>
+        </ul>
+    </div>*@
+
+    <div class="clear"></div>
+</div>
+@section SectionFooter{
+    <script src="http://static.kecq.com/js/jquery.slideBox/js/jquery.slideBox.min.js"></script>
+    <script src="http://static.kecq.com/js/jquery/jquery.lazyload.min.js"></script>
+    @if (Model.MainArticlePics.Count() > 0)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#ibanner').slideBox({
+                    width: 680,
+                    height: 250,
+                    duration: 0.3,//滚动持续时间，单位：秒
+                    easing: 'linear',//swing,linear//滚动特效
+                    delay: 5,//滚动延迟时间，单位：秒
+                    hideClickBar: false,//不自动隐藏点选按键
+                    clickBarRadius: 10
+                });
+            });
+        </script>
+    }
+    <script type="text/javascript">
+        $(function () {
+            $(".articlePic").lazyload({
+                effect: "fadeIn"
+            });
+        });
+    </script>
+}

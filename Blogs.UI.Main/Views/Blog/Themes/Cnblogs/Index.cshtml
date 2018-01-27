@@ -1,0 +1,53 @@
+﻿@model Blogs.UI.Main.ViewModel.IndexViewModel
+@{
+    Layout = "~/Views/Blog/Themes/cnblogs/Shared/_Layout.cshtml";
+}
+
+<div class="forFlow">
+    <div class="day" style="@(Model.TopArticles.Count()==0?"display:none":"")">
+        <div class="dayTitle">
+            <a  href="#"></a>&nbsp; 博主置顶推荐
+        </div>
+        <div class="postCon">
+            <ul>
+                @foreach(var item in Model.TopArticles)
+                 {
+                    <li><a href="@item.articleUrl">@item.articleTitle</a></li>
+                }
+            </ul>
+            <p></p>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    @foreach(var item in Model.IndexArticles)
+    {
+            <div class="day">
+        <div class="dayTitle">
+            <a title="Day link" href="#"></a>&nbsp;@item.articleDatetime.ToString("yyyy年MM月dd日")
+        </div>
+
+        <div class="postTitle">
+            <a class="postTitle2" href="@item.articleUrl">@Html.Raw(item.articleTitle)</a>
+        </div>
+        <div class="postCon">
+            @Html.Raw(item.articleSubContentText)
+        </div>
+        <div class="clear">
+        </div>
+        <div class="postDesc">
+            posted @item.articleDatetime  阅读(@item.articleClickTimes)
+            | <a href="#" title="comments">评论 (@item.articleCommentTimes)</a>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    }
+
+    <div id="pager_bottom">
+        @Html.Raw(Model.PagerHtml)
+    </div>
+
+</div>
+<!--end: forFlow -->
+

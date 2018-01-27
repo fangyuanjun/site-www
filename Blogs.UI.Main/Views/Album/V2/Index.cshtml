@@ -1,0 +1,39 @@
+﻿@model Blogs.UI.Main.ViewModel.AlbumViewModel
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@Model.Title</title>
+    <link href="http://static.kecq.com/style/album/v1/main.css" rel="stylesheet" type="text/css" />
+    <link href="http://static.kecq.com/style/album/v1/sim-prev-anim.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="albums">
+        <div class="albums-inner">
+            @{
+                foreach (var item in Model.AlbumCollection)
+                {
+                    <div class="albums-tab">
+                        <div class="albums-tab-thumb sim-anim-1">
+                            @{
+                    foreach (var v in item.Photos)
+                    {
+                        <a href="/Album/PhotoShow/@item.ID" target="_blank"><img src="@v" class="all studio" /></a>
+                    }
+                            }
+                        </div>
+                        <div class="albums-tab-text"><a href="/Album/PhotoShow/@item.ID" target="_blank">@item.Display</a> <span>(@item.PhotoCount pictures)</span></div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+    <div style="text-align:center;">
+    </div>
+    <script src="http://static.kecq.com/js/jquery-1.12.4.min.js"></script>
+    @(new HtmlString(Utility.SiteVistCode))
+</body>
+</html>

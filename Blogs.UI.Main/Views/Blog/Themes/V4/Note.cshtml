@@ -1,0 +1,21 @@
+﻿@model Blogs.UI.Main.ViewModel.NoteViewModel
+@{
+    Layout = "~/Views/Blog/themes/V4/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="margin-top:60px">
+    <div class="list-group">
+        @foreach (var item in Model.ListArticleCollection)
+        {
+
+            <a class="row list-group-item" href="@item.Url">
+                <div class="col-md-8">
+                    @Html.Raw(item.articleTitle)
+                </div>
+                <div class="col-md-4 hidden-xs text-right">@item.articleDatetime.ToString("yyyy-MM-dd HH:mm:ss")  阅读:@item.articleClickTimes 评论:@item.articleCommentTimes</div>
+            </a>
+        }
+    </div>
+</div>
+
+

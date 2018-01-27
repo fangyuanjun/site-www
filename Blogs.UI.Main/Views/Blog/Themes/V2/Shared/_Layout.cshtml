@@ -1,0 +1,100 @@
+﻿@{
+    Blogs.UI.Main.ViewModel.BaseViewModel Model = (Blogs.UI.Main.ViewModel.BaseViewModel)ViewBag.BaseModel;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@Model.Title</title>
+    <meta name="keywords" content="@Model.Keywords" />
+    <meta name="description" content="@Model.Description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="http://static.kecq.com/style/flati/css/bootstrap.css" rel="stylesheet">
+    <link href="http://static.kecq.com/style/flati/css/theme.css" rel="stylesheet">
+    <link href="http://static.kecq.com/style/flati/css/prettyPhoto.css" rel="stylesheet" type="text/css" />
+    <link href="http://static.kecq.com/style/flati/css/zocial.css" rel="stylesheet" type="text/css" />
+    <link href="http://static.kecq.com/style/flati/css/settings.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://static.kecq.com/js/jquery-migrate-1.2.1.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <!--header-->
+    <div class="header">
+        <div class="container">
+            <!--logo-->
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="logo">
+                <a href="@Model.BlogUrl"><img src="@Model.Blog.blogLogo" alt="" class="animated bounceInDown" /></a>
+            </div>
+            <!--menu-->
+            <nav id="main_menu">
+                <div class="nav-collapse collapse">
+                    <ul class="nav nav-pills">
+                        @foreach (var v in Model.Menus)
+                        {
+                            string active = "";
+                            if (v.IsActive)
+                            {
+                                active = "active";
+                            }
+                            <li class="dropdown @active">
+                                <a target="@v.menuTarget" href="@v.menuUrl">@v.menuDisplay</a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!--//header-->
+    <!--page-->
+
+    @RenderBody()
+
+    <!-- footer 2 -->
+    <div id="footer2">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="copyright">
+                        Copyright
+                        &copy;
+                        <script type="text/javascript">
+                            //<![CDATA[
+                            var d = new Date()
+                            document.write(d.getFullYear())
+                            //]]>
+                        </script>
+                        - All Rights Reserved :
+                        <a href="@Model.BlogUrl">@Model.Blog.blogTitle</a>&nbsp;
+                        <a href="/Rss" target="_blank">Rss</a>&nbsp;
+                        <a href="javascript:;">QQ群:@Model.Blog.QQGroup</a>&nbsp;
+                        <a href="@Model.BlogUrl@("")sitemap.xml" target="_blank">站点地图</a>&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- up to top -->
+    <a href="#"><i class="go-top hidden-phone hidden-tablet fa fa-angle-double-up"></i></a>
+    <!--//end-->
+    <script src="http://static.kecq.com/js/jquery/jquery.lazyload.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".articlePic").lazyload({
+                effect: "fadeIn"
+            });
+        });
+    </script>
+
+    @(new HtmlString(Model.TongjiHtml))
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+﻿@model Blogs.UI.Main.ViewModel.PhotoShowViewModel
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>@Model.Title</title>
+
+    <link rel="stylesheet" href="http://static.kecq.com/include/swiper-3.4.2/css/swiper.min.css">
+
+    <!-- Demo styles -->
+    <style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #000;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper-container {
+            width: 100%;
+            
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-top {
+            height: 80%;
+            width: 100%;
+        }
+
+        .gallery-thumbs {
+            height: 20%;
+            box-sizing: border-box;
+            padding: 10px 0;
+        }
+
+            .gallery-thumbs .swiper-slide {
+                width: 156px;
+                height: 100%;
+                opacity: 0.4;
+            }
+
+            .gallery-thumbs .swiper-slide-active {
+                opacity: 1;
+            }
+    </style>
+</head>
+
+<body>
+    <!-- Swiper -->
+    <div class="swiper-container gallery-top">
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.PhotoCollection)
+            {
+           
+                <div class="swiper-slide swiper-lazy" data-background="@item.Url">
+                    <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                    
+                    <div  id="exif-@item.ID" style="position:absolute;bottom: 20px;right: 25px;z-index: 100; background-color: rgba(0, 0, 0, 0.45);color: #EEE; display:none">
+                       @Html.Raw(item.Exif)
+                    </div>
+                    <div  style="position:absolute;bottom: 3px; right:25px;z-index: 100; background-color: rgba(0, 0, 0, 0.45);color: #EEE;">
+                        <a  class="exif" href="#" data-exif="exif-@item.ID" style="text-decoration:none;color:#11a1f5; font-size:15px">EXIF</a>&nbsp;
+                        <a target="_blank" href="@item.Url" style="text-decoration:none;color:#11a1f5; font-size:15px">下载原图</a>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+    </div>
+    <div class="swiper-container gallery-thumbs">
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.PhotoCollection)
+            {
+                <div class="swiper-slide" style="background-image:url(@item.ThumbUrl)"></div>
+            }
+        </div>
+        <div class="swiper-scrollbar"></div>
+    </div>
+
+   
+
+    <!-- Swiper JS -->
+    <script src="http://static.kecq.com/js/jquery-1.12.4.min.js"></script>
+    <script type='text/javascript' src="http://static.kecq.com/include/swiper-3.4.2/js/swiper.jquery.min.js" charset='utf-8'></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+        $(document).ready(function () {
+            var galleryTop = new Swiper('.gallery-top', {
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                spaceBetween: 10,
+                lazyLoading: true
+            });
+            var galleryThumbs = new Swiper('.gallery-thumbs', {
+                spaceBetween: 10,
+                width:156,
+                //centeredSlides: true,   如果这个不为true 则必须加上宽度，不知是否为swiper的bug
+                slidesPerView: 'auto',
+                slideToClickedSlide: true,
+                scrollbar: '.swiper-scrollbar',
+                scrollbarHide: false,
+                scrollbarDraggable: true
+            });
+            galleryTop.params.control = galleryThumbs;
+            galleryThumbs.params.control = galleryTop;
+
+            $(".exif").hover(function () {
+                var id = $(this).attr("data-exif");
+                $("#" + id).show();
+            }, function () {
+                var id = $(this).attr("data-exif");
+                $("#" + id).hide();
+            });
+          
+        });
+
+
+    </script>
+
+
+    @(new HtmlString(Utility.SiteVistCode))
+</body>
+</html>

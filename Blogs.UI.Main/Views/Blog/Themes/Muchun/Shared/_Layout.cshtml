@@ -1,0 +1,126 @@
+﻿@{
+    Blogs.UI.Main.ViewModel.BaseViewModel Model = (Blogs.UI.Main.ViewModel.BaseViewModel)ViewBag.BaseModel;
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@Model.Title</title>
+    <meta name="keywords" content="@Model.Keywords" />
+    <meta name="description" content="@Model.Description" />
+    <link href="http://static.kecq.com/style/blog/themes/muchun/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <!-- top strip #end -->
+
+    <div id="header" style="background: #E7F5F6; ">
+        <div id="header_in">
+
+
+            <div class="logo" style="margin-top: -30px;">
+                <a href="@Model.BlogUrl" title="@Model.Blog.blogTitle"><img src="@Model.Blog.blogLogo" alt="@Model.Blog.blogTitle" /></a>
+            </div>
+
+            <div class="yiyu">
+               
+            </div>
+
+            <div class="header_right">
+              
+            </div>
+        </div>
+    <div style="float: right; margin-top: -70px; margin-right: 100px;">
+        <a id="loginlink" href="@Model.LoginUrl" style="display: block; line-height: 24px; float: left; margin: 0 5px 0 0; color: #09649c">登录</a>
+        <a id="registerlink" href="@Model.RegisterUrl" style="display: block; line-height: 24px; float: left; margin: 0 5px 0 0; color: #09649c;">注册</a>
+        <a id="qqloginlink" aria-haspopup="true" href="@Model.QQLoginUrl" >
+            <img src="http://static.kecq.com/images/common/Connect_logo_3.png" alt="用QQ账号登录" />
+        </a>
+    </div>
+    </div> <!-- header #end -->
+
+
+
+    <div id="nav">
+        <div id="nav_in">
+
+            <div class="menu"><ul>
+                @foreach(var v in Model.Menus)
+                    {
+                         <li class="page_item page-item-2"><a target="@v.menuTarget" href="@v.menuUrl">@v.menuDisplay</a></li>
+                    }
+                
+               </ul></div>
+
+            <div class="search">
+                <form method="get" id="searchform" action="@Model.SearchUrl">
+                    <input type="text" value="搜索其实很简单 ^_^" name="q" id="s" class="textfield" onfocus="if (this.value == '搜索其实很简单 ^_^') {this.value = '';}" onblur="if (this.value == '') {this.value = '搜索其实很简单 ^_^';}" />
+                    <input type="image" class="b_search" src="http://static.kecq.com/style/blog/themes/muchun/images/b_search.png" alt="Submit button" />
+                </form>
+            </div>
+
+        </div>
+    </div> <!-- nav #end -->
+
+
+    <div id="wrapper" class="clearfix">
+        <div id="art_container clearfix">
+
+        @RenderBody()
+
+        </div>
+    </div><!-- //wrapper -->
+    <!-- //底部模板 -->
+    <div class="footer">
+        <div class="bottom_nav  clearfix">
+            <div class="menu"><ul>
+                @foreach(var v in Model.LinkCollection)
+                {
+                    <li class="page_item page-item-2"><a href="@v.linkUrl" target="_blank">@v.linkName</a></li>
+                }
+                </ul></div>
+        </div>		<div class="footer_nav clearfix">
+          
+            <p>Copyright © 2014 <a href="@Model.BlogUrl">@Model.Blog.blogTitle</a>&nbsp;
+                <a href="http://www.miitbeian.gov.cn/">@Model.Blog.beian</a>&nbsp;
+         <a href="javascript:;">QQ群:@Model.Blog.QQGroup</a>&nbsp;
+         <a href="/Rss" target="_blank">Rss</a>&nbsp;
+         <a href="@Model.BlogUrl@("")sitemap.xml" target="_blank">站点地图</a>&nbsp;
+         All Rights Reserved.Themes By:<a href="http://www.muchun.net/">木春 </a></p>
+        </div>
+    </div>
+
+    <div id="shangxia">
+        <div id="shang" title="↑ 返回顶部"></div>
+        <div id="xia" title="↓ 移至底部"></div>
+        <div id="myrss"  onclick="window.open('','_blank');"></div>
+    </div>
+    <script type="text/javascript" src="http://static.kecq.com/js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript">
+        function jsonpCallback(result) {
+            if (result.userID == "") {
+                var loginUrl = "https://user.kecq.com/Login?BackURL=" + encodeURIComponent("http://" + location.host + "/AuthJump?ref=" + location.href);
+                var qqLoginUrl = "https://user.kecq.com/Login/LoginByQQ?BackURL=" + encodeURIComponent("http://" + location.host + "/AuthJump?ref=" + location.href);
+                $("#loginlink").text("登录").attr("href", loginUrl);
+                $("#qqloginlink").attr("href", qqLoginUrl);
+                $("#registerlink").text("注册").attr("href","@Model.RegisterUrl");
+                $("#qqloginlink").show();
+            }
+            else {
+                var logoutUrl = "https://user.kecq.com/Login/Logout?BackURL=" + encodeURIComponent("http://" + location.host + "/AuthJump?action=logout&ref=" + location.href);
+                $("#loginlink").text(result.userNumber).attr("href", "http://my.kecq.com");
+                $("#registerlink").text("注销").attr("href", logoutUrl);
+                $("#qqloginlink").hide();
+            }
+        }
+
+        $(document).ready(function ($) { $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $("html") : $("body")) : $("html,body"); $("#shang").mouseover(function () { up() }).mouseout(function () { clearTimeout(fq) }).click(function () { $body.animate({ scrollTop: 0 }, 400) }); $("#xia").mouseover(function () { dn() }).mouseout(function () { clearTimeout(fq) }).click(function () { $body.animate({ scrollTop: $(document).height() }, 400) }); $("#comt").click(function () { $body.animate({ scrollTop: $("#comments").offset().top }, 400) }); }); function up() { $wd = $(window); $wd.scrollTop($wd.scrollTop() - 1); fq = setTimeout("up()", 50) }; function dn() { $wd = $(window); $wd.scrollTop($wd.scrollTop() + 1); fq = setTimeout("dn()", 50) };
+    </script>
+    <script type="text/javascript" src="@Model.PassportRootUrl.TrimEnd('/')/service/jsonp?jsonp=jsonpCallback"></script>
+    @RenderSection("SectionFooter", false)
+
+    @(new HtmlString(Model.TongjiHtml))
+</body>
+</html>

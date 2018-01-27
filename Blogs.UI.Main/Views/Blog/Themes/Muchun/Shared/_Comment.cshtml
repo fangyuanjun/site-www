@@ -1,0 +1,16 @@
+﻿@model Blogs.UI.Main.ViewModel.CommentViewModel
+
+@foreach (var item in Model.Collection)
+{
+    <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1" id="comment-@item.commentID">
+    <div id="div-comment-@item.floor" class="comment-body">
+        <div class="comment-author vcard">
+           
+            <strong>@item.author</strong> <span class="commentmetadata"></span>
+        </div>
+        <span class="datetime">@item.ADD_DATE</span>&nbsp;@Html.Raw(item.mark)
+        <div class="clear"></div> <p>@Html.Raw(item.commentContent2)</p>
+    </div>
+        <hr />
+</li>
+}

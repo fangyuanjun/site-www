@@ -1,0 +1,175 @@
+﻿@{
+    Blogs.UI.Main.ViewModel.BaseViewModel Model = (Blogs.UI.Main.ViewModel.BaseViewModel)ViewBag.BaseModel;
+
+    Blogs.UI.Main.ViewModel.IndexViewModel IndexModel = (Blogs.UI.Main.ViewModel.IndexViewModel)ViewBag.IndexModel;
+}
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@Model.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="@Model.Keywords" />
+    <meta name="description" content="@Model.Description" />
+    <link type='text/css' rel='stylesheet' href='http://static.kecq.com/style/blog/admin-bar.css?ver=3.6' />
+    <style type="text/css">
+        #blogTitle {
+            margin-top: 30px;
+        }
+    </style>
+
+    <script type="text/javascript" src="http://static.kecq.com/js/jquery-1.8.1.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://static.kecq.com/style/blog/themes/default/blog-common.css" />
+
+</head>
+
+<body>
+    <form id="form1">
+
+        <div id="home">
+            <div id="header">
+                <div id="blogTitle">
+                    <a id="lnkBlogLogo" href="#"></a>
+                    <h1>
+                        <a href="@Model.BlogUrl" class="headermaintitle">@Model.Blog.blogTitle</a>
+                    </h1>
+
+                </div>
+                <!--end: blogTitle 博客的标题和副标题 -->
+                <div id="navigator">
+                    <ul id="navList">
+                        @foreach (var item in Model.Menus)
+                        {
+                            <li><a class="menu" href="@item.menuUrl" target="@item.menuTarget">@item.menuDisplay</a></li>
+                        }
+                    </ul>
+                    <div class="blogStats">
+                        @*文章- @Model.TotalArticleCount &nbsp; 浏览- @Model.TotalArticleViewCount&nbsp;*@ @*评论- @Model.TotalArticleCommentCount&nbsp;*@
+                    </div>
+                    <!--end: blogStats -->
+                </div>
+
+                <!--end: navigator 博客导航栏 -->
+            </div>
+            <!--end: header 头部 -->
+            <div id="main">
+                <div id="mainContent">
+                    @RenderBody()
+                </div>
+                <!--end: mainContent 主体内容容器-->
+                <div id="sideBar">
+                    <div id="sideBarMain">
+                        <!--done-->
+
+                        <div id="leftcontentcontainer">
+                            <div class="catListEssay">
+                                <h3 class="catListTitle">
+                                    最新文章
+                                </h3>
+                                <ul>
+                                    @foreach (var item in IndexModel.NewArticles)
+                                    {
+                                        <li><a href="@item.articleUrl">@item.articleTitle</a></li>
+                                    }
+                                </ul>
+                            </div>
+
+
+                            <div class="catListTag">
+                                <h3 class="catListTitle">我的分类</h3>
+                                <ul>
+                                    @foreach (var item in IndexModel.categorys)
+                                    {
+                                        <li><a href="@item.Url">@item.categoryDisplay (@item.ArticleCount)</a></li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="catListTag">
+                                <h3 class="catListTitle">我的标签</h3>
+                                <ul>
+                                    @foreach (var item in IndexModel.Tags)
+                                    {
+                                        <li><a href="@item.Url">@item.tagDisplay@("")(@item.ArticleCount)</a></li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="catListArticleArchive">
+                                <h3 class="catListTitle">文章档案</h3>
+                                <ul>
+                                    @foreach (var item in IndexModel.Months)
+                                    {
+                                        <li><a href="@item.Url">@item.Title</a></li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="mySearch">
+                                <h3 class="catListTitle">搜索</h3>
+                                <div>
+                                    <input type="text" name="" id="q" />
+                                    <input type="button" name="" value="搜索" />
+                                </div>
+                            </div>
+
+                            <div class="catListView">
+                                <h3 class="catListTitle">阅读排行榜</h3>
+                                <ul>
+                                    @foreach (var item in IndexModel.MostViewArticles)
+                                    {
+                                        <li><a href="@item.articleUrl">@Html.Raw(item.articleTitle) (@item.articleClickTimes)</a></li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="catListFeedback">
+                                <h3 class="catListTitle">评论排行榜</h3>
+                                <ul>
+                                    @foreach (var item in IndexModel.MostCommentArticles)
+                                    {
+                                        <li><a href="@item.articleUrl">@Html.Raw(item.articleTitle) (@item.articleCommentTimes)</a></li>
+                                    }
+                                </ul>
+                            </div>
+
+                            @*<div class="catListFeedback">
+                                <h3 class="catListTitle">访问统计</h3>
+                                <ul>
+                                    <li>@IndexModel.TotalPV</li>
+                                </ul>
+                            </div>*@
+
+                            @*<div class="catListFeedback">
+                                    <script type="text/javascript">
+                                        u_a_client = "109937";
+                                        u_a_width = "200";
+                                        u_a_height = "200";
+                                        u_a_zones = "143405";
+                                        u_a_type = "0"
+                                    </script>
+                                    <script src="http://js.admin6.com/i.js"></script>
+                                </div>*@
+
+                        </div>
+                    </div>
+                    <!--end: sideBarMain -->
+                    <div class="clear">
+                    </div>
+                    <!--end: sideBar 侧边栏容器 -->
+                </div>
+            </div>
+            <!--end: main -->
+            <div class="clear">
+            </div>
+            <div id="footer">
+                Copyright ©2012 UI by <a href="http://www.cnblogs.com/" target="_blank">cnblogs.com</a>
+                &nbsp;<a href="@Model.SitemapUrl" target="_blank">站点地图</a>
+            </div>
+            <!--end: footer -->
+        </div>
+        <!--end: home 自定义的最大容器 -->
+
+    </form>
+    @(new HtmlString(Model.TongjiHtml))
+</body>
+</html>

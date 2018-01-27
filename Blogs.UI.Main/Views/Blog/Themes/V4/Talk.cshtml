@@ -1,0 +1,42 @@
+﻿@model Blogs.UI.Main.ViewModel.TalkViewModel
+@{
+    Layout = "~/Views/Blog/Themes/V4/Shared/_Layout.cshtml";
+}
+
+<link type="text/css" rel="stylesheet" href="http://static.kecq.com/style/v_timeline/style.css" />
+
+<section id="cd-timeline" class="cd-container">
+
+    @foreach (var item in Model.TalkCollection)
+    {
+        <div class="cd-timeline-block">
+            <div class="cd-timeline-img cd-picture">
+                <img src="http://static.kecq.com/style/v_timeline/img/cd-icon-location.svg" alt="Picture">
+            </div>
+
+            <div class="cd-timeline-content">
+                <h2 style="display:none">HTML5+CSS3实现的响应式垂直时间轴</h2>
+                <p>
+                    @if (!String.IsNullOrEmpty(item.Pic))
+                    {
+                        <img src="@item.Pic" />
+                    }
+                    @Html.Raw(item.TalkContent)
+                </p>
+
+                <a href="javascript:;" class="cd-read-more" style="display:none" target="_blank">阅读全文</a>
+
+                <span class="cd-date"> @item.TalkDatetime.ToString("yyyy-MM-dd")</span>
+            </div>
+        </div>
+
+    }
+
+</section>
+
+<script type="text/javascript" src="http://static.kecq.com/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+$(".navbar-fixed-top").removeClass("navbar-fixed-top");
+</script>
+
+

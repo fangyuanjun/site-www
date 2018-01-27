@@ -1,0 +1,228 @@
+﻿@*@{
+    Blogs.UI.Main.ViewModel.IndexViewModel Model = (Blogs.UI.Main.ViewModel.IndexViewModel)ViewBag.BaseModel;
+}*@
+@model Blogs.UI.Main.ViewModel.IndexViewModel
+@{
+    Layout = "~/Views/Blog/themes/V2/Shared/_Layout.cshtml";
+}
+
+<!--page-->
+<!-- REVOLUTION SLIDER -->
+<div class="fullwidthbanner-container">
+    <div class="fullwidthbanner">
+        <!-- Slide 1 -->
+        <ul>
+            @foreach (var item in Model.SliderCollection)
+            {
+                  <li data-transition="slidedown">
+                <img src="@item.Pic" alt="" />
+                 </li>
+            }
+         
+        </ul>
+        <div class="tp-bannertimer tp-bottom"></div>
+    </div>
+</div>
+<!-- // END REVOLUTION SLIDER  -->
+<!--//banner-->
+
+<div class="container wrapper">
+    <div class="inner_content">
+        <div class="pad30"></div>
+        <div class="row">
+
+            <!--post-->
+            <div class="span9 pad15">
+                @foreach (var item in Model.IndexArticles)
+                {
+                    <div class="row">
+                        <!--date-->
+                        <div class="span1">
+                            <div class="btn btn-medium btn-rounded btn-blog1">
+                                @item.articleDatetime.ToString("yyyy.MM.dd") view:@item.articleClickTimes
+                                <i class="fa fa-comments fa-2x"></i> <a class="com_no" href="comment-@item.articleID@("")-1.html" target="_blank">@item.articleCommentTimes</a>
+                            </div>
+                        </div>
+                        <!--post entry-->
+                        <div class="span8">
+                            <div class="">
+                                <a href="@item.articleUrl" target="_blank">
+
+                                    @if (!String.IsNullOrEmpty(item.articlePic))
+                                    {
+                                        if (System.Configuration.ConfigurationManager.AppSettings["isLazyloadPic"] == "true")
+                                        {
+                                            <img class="articlePic" src="http://static.kecq.com/images/common/big-loading.gif" data-original="@item.articlePic" style="max-width:770px" />
+                                        }
+                                        else
+                                        {
+                                            <img class="articlePic" src="@item.articlePic" style="max-width:770px" />
+                                        }
+                                    }
+                                </a>
+                            </div>
+
+                            <h1 class="post_link"><a href="@item.articleUrl">@Html.Raw(item.articleTitle) </a></h1>
+
+                            <div class="post-meta muted">
+                                <ul>
+                                    <li>作者：@item.articleAuthor </li>
+                                    <li>分类: <a href="@item.categoryUrl" rel="category">@item.categoryDisplay</a> </li>
+                                    <li>
+                                        标签:
+                                        @foreach (var v in item.TagCollection)
+                                        {
+                                            <a href="@v.Url" rel="tag">@v.tagDisplay</a>@Html.Raw("&nbsp;")
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <p>
+                                @if (!String.IsNullOrEmpty(item.articleSubContentHtml))
+                                {
+                                    @Html.Raw(item.articleSubContentHtml)
+                                }
+                                else
+                                {
+                                    @Html.Raw(item.articleSubContentText)
+                                }
+                                <a href="@item.articleUrl" target="_blank">[&#8230;]</a>
+                            </p>
+
+                            <div class="read_more"><a href="@item.articleUrl">浏览全文 &rarr;</a></div>
+                            <div class="pad30"></div>
+                        </div><!--end post-->
+
+                    </div>
+                }
+
+                <div class="pagination" style="margin-left:100px;">
+                    <ul>
+                        @foreach (var p in Model.PagerCollection)
+                        {
+                            string classString = "";
+                            if (p.IsCurrent)
+                            {
+                                classString = "active";
+                            }
+                            if (p.IsDisabled)
+                            {
+                                classString = "disabled";
+                            }
+                            <li class="@classString"><a href="@p.Url">@p.Text</a></li>
+                        }
+
+                    </ul>
+                </div>
+
+                @*@Html.Raw(Model.PagerHtml)*@
+            </div>
+
+
+
+            <!--sidebar-->
+            <div class="sidebar span3">
+
+                <h3>关于我</h3>
+                <h5>
+                    @Model.Blog.AboutMe
+                </h5>
+
+                <h3>分类</h3>
+                <ul class="fa-ul">
+                    @foreach (var item in Model.categorys)
+                    {
+                        <li><i class="fa-li fa fa-caret-right grey2"></i><a href="@item.Url">@item.categoryDisplay (@item.ArticleCount)</a></li>
+                    }
+                </ul>
+                <div class="pad30"></div>
+
+                <h4>近期文章</h4>
+                <ul class="media-list">
+                    @foreach (var item in Model.NewArticles)
+                    {
+                        <li class="media">
+
+
+                            <a href="@item.articleUrl">@item.articleTitle</a>
+
+                        </li>
+
+                    }
+                </ul>
+
+                <h3>文章归档</h3>
+                <ul class="fa-ul">
+                    @foreach (var item in Model.Months)
+                    {
+                        <li><i class="fa-li fa fa-caret-right grey2"></i><a href="@item.Url">@item.Title</a></li>
+                    }
+                </ul>
+
+                <h3>标签</h3>
+                <div class="flickrs2">
+                    <div class="FlickrImagesBlog">
+                        <ul>
+                            @foreach (var item in Model.Tags)
+                            {
+                                <li><i class="fa-li fa fa-caret-right grey2"></i><a href="@item.Url" title="@item.ArticleCount 个话题" style="@item.style">@item.tagDisplay</a></li>
+                            }
+                        </ul>
+
+
+                    </div>
+                </div>
+                <div class="pad15"></div>
+                <h4>随机推荐</h4>
+                <ul class="media-list">
+                    @foreach (var item in Model.RandomArticles)
+                    {
+                        <li class="media">
+                            <a href="@item.articleUrl">@Html.Raw(item.articleTitle2)</a>
+                        </li>
+                    }
+                </ul>
+
+                @*<h4>访问统计</h4>
+                <ul class="media-list">
+                    <li class="media">@Model.TotalPV</li>
+                </ul>*@
+
+            </div>
+            <div class="pad45"></div>
+        </div>
+
+    </div>
+    <!--//page-->
+
+    <div class="pad25 hidden-desktop"></div>
+</div>
+
+<script src="http://static.kecq.com/style/flati/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://static.kecq.com/style/flati/js/jquery.themepunch.revolution.min.js"></script>
+<script type="text/javascript" src="http://static.kecq.com/style/flati/js/jquery.themepunch.plugins.min.js"></script>
+<!-- slider settings -->
+<script>
+    //<![CDATA[
+    $(document).ready(function () {
+        if ($.fn.cssOriginal != undefined)
+            $.fn.css = $.fn.cssOriginal;
+        $('.fullwidthbanner').revolution(
+            {
+                delay: 9000,
+                startwidth: 1170,
+                startheight: 550,
+                onHoverStop: "on",
+                navigationType: "none",
+                soloArrowLeftHOffset: 0,
+                soloArrowLeftVOffset: 0,
+                soloArrowRightHOffset: 0,
+                soloArrowRightVOffset: 0,
+                touchenabled: "on",
+                fullWidth: "on",
+                shadow: 0
+            });
+    });
+    //]]>
+</script>

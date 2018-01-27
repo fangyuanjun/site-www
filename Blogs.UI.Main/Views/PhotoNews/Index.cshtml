@@ -1,0 +1,37 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>图片新闻浏览</title>
+    <link href="http://static.kecq.com/style/album/v1/main.css" rel="stylesheet" type="text/css" />
+    <link href="http://static.kecq.com/style/album/v1/sim-prev-anim.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="albums">
+        <div class="albums-inner">
+            @{
+                System.Data.DataTable dt = (System.Data.DataTable)Model;
+                foreach (System.Data.DataRow row in dt.Rows)
+                {
+                 
+                    <div class="albums-tab">
+                        <div class="albums-tab-thumb sim-anim-1">
+                            <a href="/PhotoNews/Show/@row["ID"]" target="_blank"><img src="@row["newCover"]" class="all studio" /></a>
+                        </div>
+                        <div class="albums-tab-text"><a href="/PhotoNews/Show/@row["ID"]" target="_blank">@row["Title"]</a> <span>(@row["imgsum"])</span></div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+    <div style="text-align:center;">
+    </div>
+    <script src="http://static.kecq.com/js/jquery-1.12.4.min.js"></script>
+    @(new HtmlString(Utility.SiteVistCode))
+</body>
+</html>
+
+

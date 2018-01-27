@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>sitemap</title>
+</head>
+<body>
+    @{
+        List<Blogs.Entity.sitemap> list = (List<Blogs.Entity.sitemap>)Model;
+        foreach(var item in list.Where(x=>x.Mtype=="menu"))
+        {
+            <h3><a href="@item.Url" target="_blank">@item.Text</a></h3>
+        }
+
+        foreach (var item in list.Where(x => x.Mtype == "category"))
+        {
+            <h4><a href="@item.Url" target="_blank">@item.Text</a></h4>
+        }
+
+        foreach (var item in list.Where(x => x.Mtype == "month"))
+        {
+            <h5><a href="@item.Url" target="_blank">@item.Text</a></h5>
+        }
+
+        foreach (var item in list.Where(x => x.Mtype == "article"))
+        {
+            <p><a href="@item.Url" target="_blank">@Html.Raw(item.Text)</a>(@item.lastmod)</p>
+        }
+    }
+
+</body>
+</html>

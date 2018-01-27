@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DbHelperSettings>
+ 
+  <site id="fyj" >
+    <environment  domain="fyj.me"  port="80" />
+    <environment  domain="fyj.me"  port="443" />
+    <environment  domain="fyj.me"  port="8001" />
+    <environment  domain="fyj.me"  port="8002" />
+    <environment  domain="manage.fyj.me"  port="80" />
+    <environment  domain="manage.fyj.me"  port="443" />
+    <environment  domain="manage.fyj.me"  port="8001" />
+    <environment  domain="manage.fyj.me"  port="8002" />
+  </site>
+
+  <site id="kecq" >
+    <environment  domain="kecq.com"  port="80" />
+    <environment  domain="kecq.com"  port="443" />
+    <environment  domain="kecq.com"  port="8001" />
+    <environment  domain="kecq.com"  port="8002" />
+    <environment  domain="manage.kecq.com"  port="80" />
+    <environment  domain="manage.kecq.com"  port="443" />
+    <environment  domain="manage.kecq.com"  port="8001" />
+    <environment  domain="manage.kecq.com"  port="8002" />
+  </site>
+
+  <site id="fangyj" >
+    <environment  domain="fangyj.com"  port="80" />
+    <environment  domain="fangyj.com"  port="443" />
+    <environment  domain="fangyj.com"  port="8001" />
+    <environment  domain="fangyj.com"  port="8002" />
+    <environment  domain="manage.fangyj.com"  port="80" />
+    <environment  domain="manage.fangyj.com"  port="443" />
+    <environment  domain="manage.fangyj.com"  port="8001" />
+    <environment  domain="manage.fangyj.com"  port="8002" />
+    <environment  domain="manage2.kecq.com"  port="8001" />
+  </site>
+
+  <site id="movie" >
+    <environment  domain="movie.kecq.com"  port="80" />
+    <environment  domain="manage.kecq.com"  port="8010" />
+  </site>
+  
+  <!--
+  type取值:remote   local
+  -->
+  <database name="fyj" type="local">
+    
+    <DbHelperSetting name="Blogs" type="FYJ.Data.DbHelper,FYJ.Data" providerName="MySql.Data.MySqlClient" connectionString="xxxxxx"  isEncrypt="false" encryptType="FYJ.Data.DbEncrypt,FYJ.Data"  isThrowSql="true" />
+    <DbHelperSetting name="Blogs-Write" type="FYJ.Data.DbHelper,FYJ.Data" providerName="MySql.Data.MySqlClient" connectionString="xxxxxxx"  isEncrypt="false" encryptType="FYJ.Data.DbEncrypt,FYJ.Data"  isThrowSql="true" />
+    <DbHelperSetting name="Comment" type="FYJ.Data.DbHelper,FYJ.Data" providerName="MySql.Data.MySqlClient" connectionString="xxxxxxx"  isEncrypt="false" encryptType="FYJ.Data.DbEncrypt,FYJ.Data"  isThrowSql="true" />
+    <DbHelperSetting name="Common" type="FYJ.Data.DbHelper,FYJ.Data" providerName="MySql.Data.MySqlClient" connectionString="xxxxxx"  isEncrypt="false" encryptType="FYJ.Data.DbEncrypt,FYJ.Data"  isThrowSql="true" />
+    <DbHelperSetting name="Visit" type="FYJ.Data.DbHelper,FYJ.Data" providerName="MySql.Data.MySqlClient" connectionString="xxxxxx"  isEncrypt="false" encryptType="FYJ.Data.DbEncrypt,FYJ.Data"  isThrowSql="true" />
+    <DbHelperSetting name="Files" type="FYJ.Data.DbHelper,FYJ.Data" providerName="MySql.Data.MySqlClient" connectionString="xxxxxxx"  isEncrypt="false" encryptType="FYJ.Data.DbEncrypt,FYJ.Data"  isThrowSql="true" />
+   
+  </database>
+
+  <database  name="kecq" type="local">
+  </database>
+
+  <database name="fangyj" type="local">
+  </database>
+
+  <database name="movie" type="local">
+   </database>
+  
+  <!--远程环境-->
+  <database name="fyj" type="remote">
+
+     </database>
+
+  <database  name="kecq" type="remote">
+   </database>
+
+  <database name="fangyj" type="remote">
+   </database>
+
+  <database name="movie" type="remote">
+  </database>
+</DbHelperSettings>

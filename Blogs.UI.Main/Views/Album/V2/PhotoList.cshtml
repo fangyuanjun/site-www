@@ -1,0 +1,31 @@
+﻿@model Blogs.UI.Main.ViewModel.PhotoListViewModel
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@Model.Title</title>
+</head>
+<body>
+    <ul>
+        @{
+            foreach(var item in Model.PhotoCollection)
+            {
+                <li style="float:left;margin:10px;"> 
+            <div>
+                <a href="javascript:;">
+                    <img src="@item.ThumbUrl" style="width:160px; height:90px;" />
+                </a>
+            </div>
+            <div>
+                <a href="javascript:;">@item.Display</a>
+            </div>
+        </li>
+            }
+        }
+      
+    </ul>
+    <script src="http://static.kecq.com/js/jquery-1.12.4.min.js"></script>
+ @(new HtmlString(Utility.SiteVistCode))
+</body>
+</html>

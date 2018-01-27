@@ -1,0 +1,25 @@
+﻿@model Blogs.UI.Main.ViewModel.NoteViewModel
+@{
+    Layout = "~/Views/Blog/themes/muchun/Shared/_Layout.cshtml";
+}
+
+<link type="text/css" rel="stylesheet" href="http://static.kecq.com/style/blog/themes/default/blog-common.css" />
+
+
+    <div id="myposts">
+        @foreach (var item in Model.ListArticleCollection)
+        {
+            <div class="PostList">
+                <div class="postTitl2">
+                    <a href="@item.articleUrl">@Html.Raw(item.articleTitle)</a>
+                </div>
+                <div class="postDesc2">
+                    @item.articleDatetime.ToString("yyyy-MM-dd HH:mm:ss")  阅读:@item.articleClickTimes 评论:@item.articleCommentTimes
+                </div>
+                <div class="postText2">
+                </div>
+            </div>
+        }
+
+    <div class="clear"></div>
+</div>

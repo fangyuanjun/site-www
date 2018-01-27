@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Ioc>
+
+  <Service name="Blogs.IDAL.IDALAlbum,Blogs.IDAL" type="Blogs.DAL.DALAlbum,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALArticle,Blogs.IDAL" type="Blogs.DAL.DALArticle,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALBlog,Blogs.IDAL" type="Blogs.DAL.DALBlog,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALBoard,Blogs.IDAL" type="Blogs.DAL.DALBoard,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALCategory,Blogs.IDAL" type="Blogs.DAL.DALCategory,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALComment,Blogs.IDAL" type="Blogs.DAL.DALComment,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALPhoto,Blogs.IDAL" type="Blogs.DAL.DALPhoto,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALSlider,Blogs.IDAL" type="Blogs.DAL.DALSlider,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALTalk,Blogs.IDAL" type="Blogs.DAL.DALTalk,Blogs.MySqlDAL"></Service>
+  <Service name="Blogs.IDAL.IDALVisit,Blogs.IDAL" type="Blogs.DAL.DALVisit,Blogs.MySqlDAL"></Service>
+  
+  
+  <Service name="Blogs.IBLL.IBLLArticle,Blogs.IBLL" type="Blogs.BLL.BLLArticle,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLBlog,Blogs.IBLL" type="Blogs.BLL.BLLBlog,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLCategory,Blogs.IBLL" type="Blogs.BLL.BLLCategory,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLComment,Blogs.IBLL" type="Blogs.BLL.BLLComment,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLAlbum,Blogs.IBLL" type="Blogs.BLL.BLLAlbum,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLPhoto,Blogs.IBLL" type="Blogs.BLL.BLLPhoto,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLBoard,Blogs.IBLL" type="Blogs.BLL.BLLBoard,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLSlider,Blogs.IBLL" type="Blogs.BLL.BLLSlider,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLTalk,Blogs.IBLL" type="Blogs.BLL.BLLTalk,Blogs.BLL"></Service>
+  <Service name="Blogs.IBLL.IBLLVisit,Blogs.IBLL" type="Blogs.BLL.BLLVisit,Blogs.BLL"></Service>
+
+  <Service name="FYJ.Data.IDbFactory,FYJ.Data" type="FYJ.Web.Data.WebDbHelperCreate,FYJ.Web.Data"></Service>
+  <Service name="Blogs.Entity.IBlogFix,Blogs.Entity" type="Blogs.UI.Main.BlogFix,Blogs.UI.Main"></Service>
+  <Service name="Blogs.Entity.IBlogInfo,Blogs.Entity" type="Blogs.UI.Main.Utility,Blogs.UI.Main"></Service>
+</Ioc>

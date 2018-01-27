@@ -1,0 +1,219 @@
+﻿@model Blogs.UI.Main.ViewModel.IndexViewModel
+@{
+    Layout = "~/Views/Blog/themes/V3/Shared/_Layout.cshtml";
+}
+
+<!--大图开始-->
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-top:50px">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        @{
+            for (int i = 0; i < Model.SliderCollection.Count(); i++)
+            {
+                string active = (i == 0) ? "active" : "";
+                <li data-target="#carousel-example-generic" data-slide-to="@i" class="@active"></li>
+            }
+        }
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        @{
+            for (int i = 0; i < Model.SliderCollection.Count(); i++)
+            {
+                var item = Model.SliderCollection.ElementAt(i);
+                string active = (i == 0) ? "active" : "";
+
+                <div class="item @active">
+                    @if (String.IsNullOrEmpty(item.Url))
+                    {
+                        <img src="@item.Pic" style="height:550px; width:100%" alt="...">
+                    }
+                    else
+                    {
+                        <a href="@item.Url" target="_blank"><img src="@item.Pic" style="height:550px; width:100%" alt="..."></a>
+                    }
+
+                    <div class="carousel-caption">
+
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<!--大图结束-->
+
+<div style="height:30px;"></div>
+
+<div class="container" style="font-size:14px;">
+    <div class="row">
+        <div class="col-md-9">
+
+            @foreach (var item in Model.IndexArticles)
+            {
+                <div class="media">
+                    <div class="media-body">
+                        <h4 class="media-heading"><a href="@item.Url" target="_blank">@Html.Raw(item.articleTitle)</a></h4>
+                        <div style="color:gray;">
+                            <span>作者:</span><strong>@item.articleAuthor</strong> &nbsp; &nbsp;
+                            <span>分类:</span><strong><a href="@item.categoryUrl" target="_blank">@item.categoryDisplay</a></strong> &nbsp; &nbsp;
+                            <span>标签:</span><strong>
+                                @foreach (var v in item.TagCollection)
+                                {
+                                    <a href="@v.Url" target="_blank" rel="tag">@v.tagDisplay</a>@Html.Raw("&nbsp;")
+                                }
+                            </strong> &nbsp; &nbsp;
+                            <span>时间:</span><strong>@item.articleDatetime.ToString("yyyy.MM.dd")</strong> &nbsp; &nbsp;
+                            <span>浏览:</span><strong>@item.articleClickTimes</strong> &nbsp; &nbsp;
+                            <span>评论:</span><strong>@item.articleCommentTimes</strong>
+                        </div>
+
+                        <div>
+                            <a href="@item.Url" target="_blank">
+                                @if (!String.IsNullOrEmpty(item.articlePic))
+                                {
+                                    if (System.Configuration.ConfigurationManager.AppSettings["isLazyloadPic"] == "true")
+                                    {
+                                        <img class="articlePic" src="http://static.kecq.com/images/common/big-loading.gif" data-original="@item.articlePic" style="width:100%;" />
+                                    }
+                                    else
+                                    {
+                                        <img class="articlePic" src="@item.articlePic" style="width:100%;" />
+                                    }
+                                }
+                            </a>
+
+                        </div>
+
+                        <div>
+                            <p>
+                                @if (!String.IsNullOrEmpty(item.articleSubContentHtml))
+                                {
+                                    @Html.Raw(item.articleSubContentHtml)
+                                }
+                                else
+                                {
+                                    @Html.Raw(item.articleSubContentText)
+                                }
+                                [...]&nbsp; &nbsp;<a href="@item.Url" target="_blank">阅读全文</a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+            }
+
+            <div class="pagination">
+                <ul>
+
+                    @foreach (var p in Model.PagerCollection)
+                    {
+                        string classString = "";
+                        if (p.IsCurrent)
+                        {
+                            classString = "active";
+                        }
+                        if (p.IsDisabled)
+                        {
+                            classString = "disabled";
+                        }
+                        <li class="@classString"><a href="@p.Url">@p.Text</a></li>
+                    }
+                </ul>
+            </div>
+
+            @*@Html.Raw(Model.PagerHtml)*@
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">关于我</h3>
+                </div>
+                <div class="panel-body">
+                    @Model.Blog.AboutMe
+                </div>
+            </div>
+
+            <div class="list-group">
+                <a href="javascript:;" class="list-group-item disabled">
+                    分类
+                </a>
+
+                @foreach (var item in Model.categorys)
+                {
+                    <a href="@item.Url" class="list-group-item">@item.categoryDisplay (@item.ArticleCount)</a>
+
+                }
+            </div>
+
+            <div style="margin-top:30px;">
+                <h4>近期文章</h4>
+                <ul class="media-list" style="margin-left:20px;">
+                    @foreach (var item in Model.NewArticles)
+                    {
+                        <li class="media"><a target="_blank" href="@item.Url">@item.articleTitle</a></li>
+                    }
+                </ul>
+            </div>
+
+            <div style="margin-top:30px;">
+                <h4>文章归档</h4>
+                <ol class="list-unstyled" style="margin-left:20px;">
+                    @foreach (var item in Model.Months)
+                    {
+                        <li><a href="@item.Url">@item.Title</a></li>
+                    }
+                </ol>
+            </div>
+
+            <div style="margin-top:30px;">
+                <h4>标签</h4>
+                <ol class="list-unstyled" style="margin-left:20px;">
+                    @foreach (var item in Model.Tags)
+                    {
+                        <li><a href="@item.Url" title="@item.ArticleCount 个话题" style="@item.style">@item.tagDisplay</a></li>
+                    }
+                </ol>
+            </div>
+
+            <div style="margin-top:30px;">
+                <h4>随机推荐</h4>
+                <ul class="media-list" style="margin-left:20px;">
+                    @foreach (var item in Model.RandomArticles)
+                    {
+                        <li class="media"><a target="_blank" href="@item.Url">@Html.Raw(item.ShowTitle)</a></li>
+                    }
+                </ul>
+            </div>
+
+            @*<div style="margin-top:30px;">
+                <h4>访问量</h4>
+                <ul class="media-list" style="margin-left:20px;">
+                   
+                        <li class="media">@Model.TotalPV</li>
+                    
+                </ul>
+            </div>*@
+
+
+        </div>
+    </div>
+</div>
+
+@section SectionFooter{
+    @*<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>*@
+  
+    <script src="http://static.kecq.com/style/flat-ui/js/flat-ui.min.js"></script>
+
+    <script src="http://static.kecq.com/js/jquery/jquery.lazyload.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".articlePic").lazyload({
+                effect: "fadeIn"
+            });
+        });
+    </script>
+}

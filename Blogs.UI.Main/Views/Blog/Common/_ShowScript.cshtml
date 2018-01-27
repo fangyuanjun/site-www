@@ -1,0 +1,195 @@
+﻿@model Blogs.UI.Main.ViewModel.ShowScriptViewModel
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".myfastcommentImg").click(function () {
+            var id = $(this).attr("id");
+            var html = $(this).attr("src");
+            html = html.replace(".png", ".gif");
+            $.ajax({
+                type: "POST",             //因为这里有post提交回复的数据 但是验证是否登录需要跳转 所以不在本页验证是否登录，而采用iframe 中的页面
+                url: "/CommentPost/FastComment?articleID=@Model.articleID",
+                data: "commentContent=" + html,
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.code>0) {
+                        jBox.tip('发布成功', 'success');
+                        $(".feedbackItems").append("<div class=\"feedbackItem\"><div class=\"feedbackCon\"><img src='" + html + "' /></div></div>");
+                    } else {
+                        alert(msg.message);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("错误");
+                    document.write(XMLHttpRequest.responseText);
+                }
+            });
+        });
+    });
+
+    function commentPage(page) {
+        $.ajax({
+            type: "GET",
+            url: "/CommentPost?articleID=@Model.articleID",
+            data: "page=" + page,
+            dataType: "text",
+            success: function (msg) {
+                $("#commentLoading").hide();
+                $(".feedbackItems").html(msg);
+                $(".pagination a").removeClass("current");
+                $("#page_" + page).addClass("current");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $("#commentLoading").hide();
+                alert("获取评论失败");
+                //document.write(XMLHttpRequest.responseText);
+            }
+        });
+    }
+
+   
+    function vote(typeID) {
+        $.ajax({
+            type: "POST",
+            url: "/CommentPost/Vote?articleID=@Model.articleID",
+            data: "id=" + typeID,
+            dataType: "json",
+            success: function (msg) {
+                if (msg.code>0) {
+                    var txt = $("#voteCount_" + typeID).text();
+                    var strP = /^\d+$/;
+                    if (!strP.test(txt)) {
+                        txt = 0;
+                    }
+                    $("#voteCount_" + typeID).text(parseInt(txt) + 1);
+                } else {
+                    alert(msg.message);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("错误");
+                document.write(XMLHttpRequest.responseText);
+            }
+        });
+    }
+
+    function del(id) {
+        if (confirm("你确定删除吗？") == true) {
+            $.ajax({
+                type: "POST",
+                url: "/CommentPost/DeleteComment?articleID=@Model.articleID",
+                data: "id=" + id,
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.code>0) {
+                        $("#review-each" + id).slideToggle("slow");
+                        jBox.tip('删除成功', 'success');
+                    } else {
+                        alert(msg.message);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("错误");
+                    document.write(XMLHttpRequest.responseText);
+                }
+            });
+        }
+    }
+
+    function verify(id, state) {
+        $.ajax({
+            type: "POST",
+            url: "/CommentPost/Verify?articleID=@Model.articleID",
+            data: "id=" + id + "&state=" + state,
+            dataType: "json",
+            success: function (msg) {
+                if (msg.code>0) {
+                    $("#verify3" + id).hide();
+                    if (state == 1) {
+                        $("#verify1" + id).hide();
+                        $("#verify2" + id).show();
+                    }
+                    if (state == 2) {
+                        $("#verify1" + id).show();
+                        $("#verify2" + id).hide();
+                    }
+                    jBox.tip('操作成功', 'success');
+                } else {
+                    alert(msg.message);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("错误");
+                document.write(XMLHttpRequest.responseText);
+            }
+        });
+    }
+
+    //支持和反对 state 为1表示支持 0表示反对
+    function zhichi(id, state) {
+        var selectID = "#";
+        if (state == 1) {
+            selectID = "#zhichi" + id;
+        }
+        if (state == 0) {
+            selectID = "#fandui" + id;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/CommentPost/Zhichi?articleID=@Model.articleID",
+            data: "id=" + id+"&state="+state,
+            dataType: "json",
+            success: function (msg) {
+                if (msg.code > 0) {
+                    var txt = $(selectID).text();
+                    $(selectID).text((parseInt(txt) + 1));
+                } else {
+                    alert(msg.message);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("错误");
+                document.write(XMLHttpRequest.responseText);
+            }
+        });
+    }
+
+    function dotag(id) {
+        $.ajax({
+            type: "POST",
+            url: "/CommentPost/Zhichi?articleID=@Model.articleID",
+            data: "id=" + id + "&state=1",
+            dataType: "json",
+            success: function (msg) {
+                if (msg.code>0) {
+                    jBox.tip('支持评论标签成功', 'success');
+                    var cc = $("#commentTag_" + id).attr("cc");
+                    cc = parseInt(cc) + 1;
+                    $("#commentTag_" + id).attr("title", cc + "个支持");
+                } else {
+                    alert(msg.message);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("错误");
+                document.write(XMLHttpRequest.responseText);
+            }
+        });
+    }
+
+
+
+</script>
+<script type="text/javascript">
+    function jsonpCallback2(result) {
+        $("form").attr("action", "article-" + $("#articleID").val() + ".html");
+        if (result.userID == "") {
+            $(".feedbackManage_admin").hide();
+        }
+        else {
+            $(".feedbackManage_admin").show();
+        }
+    }
+</script>
+<script type="text/javascript" src="@Model.PassportRootUrl.TrimEnd('/')/Login/jsonp?jsonp=jsonpCallback2"></script>

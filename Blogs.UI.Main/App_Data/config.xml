@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <visitHtml>
+    <![CDATA[
+   <script type="text/javascript" src="http://service.kecq.com/visit" ></script>
+    ]]>
+  </visitHtml>
+
+  <deny>
+    <url></url>
+  </deny>
+</config>
